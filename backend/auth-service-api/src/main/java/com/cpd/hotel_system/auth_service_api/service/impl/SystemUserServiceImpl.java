@@ -79,6 +79,21 @@ public class SystemUserServiceImpl implements SystemUserService {
 
     }
 
-   
+    private UserRepresentation mapUserRepo(SystemUserRequestDto dto) {
+        UserRepresentation user = new UserRepresentation();
+        user.setEmail(dto.getEmail());
+        user.setFirstName(dto.getEmail());
+        user.setLastName(dto.getEmail());
+        user.setUsername(dto.getEmail());
+        user.setEnabled(false);
+        List<CredentialRepresentation> credList = new ArrayList<>();
+        CredentialRepresentation cred = new CredentialRepresentation();
+        cred.setTemporary(false);
+        cred.setValue(dto.getPassword());
+        credList.add(cred);
+        user.setCredentials(credList);
+
+        return user;
+    }
 
 }
