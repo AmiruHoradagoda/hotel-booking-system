@@ -1,6 +1,6 @@
 package com.cpd.hotel_system.hotel_management_system_api.service.impl;
 
-import com.cpd.hotel_system.hotel_management_service_api.dto.request.RequestBranchDto;
+import com.cpd.hotel_system.hotel_management_system_api.dto.request.RequestBranchDto;
 import com.cpd.hotel_system.hotel_management_system_api.dto.response.ResponseBranchDto;
 import com.cpd.hotel_system.hotel_management_system_api.dto.response.paginate.BranchPaginateResponseDto;
 import com.cpd.hotel_system.hotel_management_system_api.service.BranchService;

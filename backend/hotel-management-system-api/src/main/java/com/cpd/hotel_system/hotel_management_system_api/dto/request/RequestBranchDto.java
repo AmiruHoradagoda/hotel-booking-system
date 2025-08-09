@@ -1,4 +1,4 @@
-package com.cpd.hotel_system.hotel_management_service_api.dto.request;
+package com.cpd.hotel_system.hotel_management_system_api.dto.request;
 
 import com.cpd.hotel_system.hotel_management_system_api.utils.enums.BranchType;
 import lombok.*;

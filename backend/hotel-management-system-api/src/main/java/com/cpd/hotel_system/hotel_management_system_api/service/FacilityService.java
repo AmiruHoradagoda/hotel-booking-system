@@ -1,11 +1,9 @@
 package com.cpd.hotel_system.hotel_management_system_api.service;
 
-import com.cpd.hotel_system.hotel_management_service_api.dto.request.RequestFacilityDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.request.RequestRoomDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.response.ResponseFacilityDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.response.ResponseRoomDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.response.paginate.FacilityPaginateResponseDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.response.paginate.RoomPaginateResponseDto;
+
+import com.cpd.hotel_system.hotel_management_system_api.dto.request.RequestFacilityDto;
+import com.cpd.hotel_system.hotel_management_system_api.dto.response.ResponseFacilityDto;
+import com.cpd.hotel_system.hotel_management_system_api.dto.response.paginate.FacilityPaginateResponseDto;
 
 public interface FacilityService {
     public void create(RequestFacilityDto dto);

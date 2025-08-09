@@ -1,11 +1,8 @@
 package com.cpd.hotel_system.hotel_management_system_api.service;
 
-import com.cpd.hotel_system.hotel_management_service_api.dto.request.RequestFacilityDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.request.RequestRoomImageDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.response.ResponseFacilityDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.response.ResponseRoomImageDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.response.paginate.FacilityPaginateResponseDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.response.paginate.RoomImagePaginateResponseDto;
+import com.cpd.hotel_system.hotel_management_system_api.dto.request.RequestRoomImageDto;
+import com.cpd.hotel_system.hotel_management_system_api.dto.response.ResponseRoomImageDto;
+import com.cpd.hotel_system.hotel_management_system_api.dto.response.paginate.RoomImagePaginateResponseDto;
 
 public interface RoomImageService {
     public void create(RequestRoomImageDto dto);

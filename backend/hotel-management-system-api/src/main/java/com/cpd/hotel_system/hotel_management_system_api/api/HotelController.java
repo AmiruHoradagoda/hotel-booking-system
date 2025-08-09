@@ -1,8 +1,8 @@
 package com.cpd.hotel_system.hotel_management_system_api.api;
 
+import com.cpd.hotel_system.hotel_management_system_api.dto.request.RequestHotelDto;
 import com.cpd.hotel_system.hotel_management_system_api.service.HotelService;
 import com.cpd.hotel_system.hotel_management_system_api.utils.StandardResponseDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.request.RequestHotelDto;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

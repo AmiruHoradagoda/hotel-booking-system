@@ -1,8 +1,8 @@
 package com.cpd.hotel_system.hotel_management_system_api.service.impl;
 
-import com.cpd.hotel_system.hotel_management_service_api.dto.request.RequestRoomDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.response.ResponseRoomDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.response.paginate.RoomPaginateResponseDto;
+import com.cpd.hotel_system.hotel_management_system_api.dto.request.RequestRoomDto;
+import com.cpd.hotel_system.hotel_management_system_api.dto.response.ResponseRoomDto;
+import com.cpd.hotel_system.hotel_management_system_api.dto.response.paginate.RoomPaginateResponseDto;
 import com.cpd.hotel_system.hotel_management_system_api.service.RoomService;
 import org.springframework.stereotype.Service;
 

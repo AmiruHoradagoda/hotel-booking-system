@@ -1,7 +1,7 @@
 package com.cpd.hotel_system.hotel_management_system_api.service;
 
-import com.cpd.hotel_system.hotel_management_service_api.dto.request.RequestAddressDto;
-import com.cpd.hotel_system.hotel_management_service_api.dto.response.ResponseAddressDto;
+import com.cpd.hotel_system.hotel_management_system_api.dto.request.RequestAddressDto;
+import com.cpd.hotel_system.hotel_management_system_api.dto.response.ResponseAddressDto;
 
 public interface AddressService {
     public void create(RequestAddressDto dto);

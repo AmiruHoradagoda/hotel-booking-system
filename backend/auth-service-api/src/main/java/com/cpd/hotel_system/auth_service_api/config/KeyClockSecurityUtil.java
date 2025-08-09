@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class KeyClockSecurityUtil {
     private Keycloak keyClock;
-    @Value("${keycloak.config.serverUrl}")
+    @Value("${keycloak.config.server-url}")
     private String serverUrl;
     @Value("${keycloak.config.realm}")
     private String realm;
