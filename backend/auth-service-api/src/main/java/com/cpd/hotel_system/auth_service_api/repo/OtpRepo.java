@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-public interface OtpRepo extends JpaRepository<OtpRepo, String> {
+public interface OtpRepo extends JpaRepository<Otp, String> {
     @Query(value = "SELECT  * FROM Otp WHERE system_user_id=?1",nativeQuery=true)
     public Optional<Otp> findBySystemUserId(String id);
 }
