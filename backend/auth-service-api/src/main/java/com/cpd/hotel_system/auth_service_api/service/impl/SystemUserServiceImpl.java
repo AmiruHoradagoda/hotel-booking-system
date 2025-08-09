@@ -11,6 +11,7 @@ import com.cpd.hotel_system.auth_service_api.repo.SystemUserRepo;
 import com.cpd.hotel_system.auth_service_api.service.SystemUserService;
 
 import com.cpd.hotel_system.auth_service_api.utils.OtpGenerator;
+import com.cpd.hotel_system.auth_service_api.service.EmailService;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
@@ -20,6 +21,7 @@ import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.*;
 
@@ -34,9 +36,10 @@ public class SystemUserServiceImpl implements SystemUserService {
     private final KeyClockSecurityUtil keyClockUtil;
     private final OtpRepo otpRepo;
     private final OtpGenerator otpGenerator;
+    private final EmailService emailService;
 
     @Override
-    public void createUser(SystemUserRequestDto dto) {
+    public void createUser(SystemUserRequestDto dto) throws IOException {
 //        Validate the dto data
         if (dto.getFirstName() == null || dto.getFirstName().trim().isEmpty()) {
             throw new BadRequestException("First name is required");
@@ -105,8 +108,8 @@ public class SystemUserServiceImpl implements SystemUserService {
                     .attempts(0)
                     .build();
             otpRepo.save(createdOtp);
+            emailService.sendUserSignupVerificationCode(dto.getEmail(), "Verify your email", createdOtp.getCode(), dto.getFirstName());
         }
-
     }
 
     private UserRepresentation mapUserRepo(SystemUserRequestDto dto) {
