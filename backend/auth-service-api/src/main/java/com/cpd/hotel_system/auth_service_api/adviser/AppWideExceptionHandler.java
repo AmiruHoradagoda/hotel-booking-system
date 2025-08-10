@@ -3,6 +3,7 @@ package com.cpd.hotel_system.auth_service_api.adviser;
 
 import com.cpd.hotel_system.auth_service_api.exceptions.BadRequestException;
 import com.cpd.hotel_system.auth_service_api.exceptions.DuplicateEntryException;
+import com.cpd.hotel_system.auth_service_api.exceptions.EntryNotFoundException;
 import com.cpd.hotel_system.auth_service_api.utils.StandardResponseDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,6 +24,13 @@ public class AppWideExceptionHandler {
         return new ResponseEntity<StandardResponseDto>(
                 new StandardResponseDto(409,ex.getMessage(),ex),
                 HttpStatus.CONFLICT
+        );
+    }
+    @ExceptionHandler(EntryNotFoundException.class)
+    public ResponseEntity<StandardResponseDto> handleEntryNotFoundException(EntryNotFoundException ex) {
+        return new ResponseEntity<StandardResponseDto>(
+                new StandardResponseDto(404,ex.getMessage(),ex),
+                HttpStatus.NOT_FOUND
         );
     }
 }

@@ -6,6 +6,7 @@ import com.cpd.hotel_system.auth_service_api.entity.Otp;
 import com.cpd.hotel_system.auth_service_api.entity.SystemUser;
 import com.cpd.hotel_system.auth_service_api.exceptions.BadRequestException;
 import com.cpd.hotel_system.auth_service_api.exceptions.DuplicateEntryException;
+import com.cpd.hotel_system.auth_service_api.exceptions.EntryNotFoundException;
 import com.cpd.hotel_system.auth_service_api.repo.OtpRepo;
 import com.cpd.hotel_system.auth_service_api.repo.SystemUserRepo;
 import com.cpd.hotel_system.auth_service_api.service.SystemUserService;
@@ -240,6 +241,65 @@ public class SystemUserServiceImpl implements SystemUserService {
                 // Send password email to host users
                 emailService.sendHostPassword(dto.getEmail(), "access system by using the above password", dto.getPassword(), dto.getFirstName());
             }
+        }
+    }
+
+    @Override
+    public void resend(String email, String type) throws IOException {
+        try {
+            Optional<SystemUser> selectedUser = systemUserRepo.findByEmail(email);
+            if (selectedUser.isEmpty()) {
+                throw new EntryNotFoundException("unable to find any users associated withe the provided email");
+            }
+            SystemUser systemUser = selectedUser.get();
+            if (type.equalsIgnoreCase("SIGNUP")) {
+                if (systemUser.isEmailVerified()) {
+                    throw new DuplicateEntryException("The email is already activated");
+                }
+            }
+            Otp selectedOtpObj = systemUser.getOtp();
+
+            String code = otpGenerator.generateOtp(5);
+            emailService.sendUserSignupVerificationCode(systemUser.getEmail(), "Verify your email", code, systemUser.getFirstName());
+            selectedOtpObj.setAttempts(0);
+            selectedOtpObj.setCode(code);
+            selectedOtpObj.setIsVerified(false);
+            selectedOtpObj.setUpdatedAt(new Date().toInstant());
+            otpRepo.save(selectedOtpObj);
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public void forgetPasswordSendVerificationCode(String email, String type) throws IOException {
+        try {
+            Optional<SystemUser> selectedUser = systemUserRepo.findByEmail(email);
+            if (selectedUser.isEmpty()) {
+                throw new EntryNotFoundException("unable to find any users associated withe the provided email");
+            }
+            SystemUser systemUser = selectedUser.get();
+            Keycloak keycloak = null;
+            keycloak = keyClockUtil.getKeyClockInstance();
+            UserRepresentation existingUser = keycloak.realm(realm).users().search(email).stream().findFirst().orElse(null);
+            if (existingUser == null) {
+                throw new EntryNotFoundException("Unable to find any users associated with the provided email address");
+            }
+
+            Otp selectedOtpObj = systemUser.getOtp();
+
+            String code = otpGenerator.generateOtp(5);
+            selectedOtpObj.setAttempts(0);
+            selectedOtpObj.setCode(code);
+            selectedOtpObj.setIsVerified(false);
+            selectedOtpObj.setUpdatedAt(new Date().toInstant());
+            otpRepo.save(selectedOtpObj);
+            emailService.sendUserSignupVerificationCode(systemUser.getEmail(), "Verify your email", code, systemUser.getFirstName());
+
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }
