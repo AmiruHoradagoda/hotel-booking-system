@@ -1,6 +1,7 @@
 package com.cpd.hotel_system.auth_service_api.service.impl;
 
 import com.cpd.hotel_system.auth_service_api.config.KeyClockSecurityUtil;
+import com.cpd.hotel_system.auth_service_api.dto.request.PasswordRequestDto;
 import com.cpd.hotel_system.auth_service_api.dto.request.SystemUserRequestDto;
 import com.cpd.hotel_system.auth_service_api.entity.Otp;
 import com.cpd.hotel_system.auth_service_api.entity.SystemUser;
@@ -15,6 +16,7 @@ import com.cpd.hotel_system.auth_service_api.service.EmailService;
 import jakarta.ws.rs.core.Response;
 import lombok.RequiredArgsConstructor;
 import org.keycloak.admin.client.Keycloak;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.RoleRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -245,7 +247,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     }
 
     @Override
-    public void resend(String email, String type){
+    public void resend(String email, String type) {
         try {
             Optional<SystemUser> selectedUser = systemUserRepo.findByEmail(email);
             if (selectedUser.isEmpty()) {
@@ -312,22 +314,50 @@ public class SystemUserServiceImpl implements SystemUserService {
             }
             SystemUser systemUser = selectedUser.get();
             Otp otpObj = systemUser.getOtp();
-            if (otpObj.getCode().equals(otp)){
+            if (otpObj.getCode().equals(otp)) {
                 otpRepo.deleteById(otpObj.getPropertyId());
                 return true;
-            }else {
-                if (otpObj.getAttempts()>=5){
-                    resend(email,"PASSWORD");
+            } else {
+                if (otpObj.getAttempts() >= 5) {
+                    resend(email, "PASSWORD");
                     throw new BadRequestException("You have a new Verification code");
                 }
-                otpObj.setAttempts(otpObj.getAttempts()+1);
+                otpObj.setAttempts(otpObj.getAttempts() + 1);
                 otpObj.setUpdatedAt(new Date().toInstant());
                 otpObj.setIsVerified(true);
                 otpRepo.save(otpObj);
                 return false;
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public boolean passwordReset(PasswordRequestDto dto) {
+
+        Optional<SystemUser> selectedUserObj = systemUserRepo.findByEmail(dto.getEmail());
+        if (selectedUserObj.isPresent()) {
+            SystemUser systemUser = selectedUserObj.get();
+            Otp otpObj = systemUser.getOtp();
+            Keycloak keycloak = keyClockUtil.getKeyClockInstance();
+            List<UserRepresentation> keyclockUsers = keycloak.realm(realm).users().search(systemUser.getEmail());
+            if (!keyclockUsers.isEmpty() && otpObj.getCode().equals(dto.getCode())) {
+                UserRepresentation keyclockUser = keyclockUsers.get(0);
+                UserResource userResource = keycloak.realm(realm).users().get(keyclockUser.getId());
+                CredentialRepresentation newPass = new CredentialRepresentation();
+                newPass.setType(CredentialRepresentation.PASSWORD);
+                newPass.setValue(dto.getPassword());
+                newPass.setTemporary(false);
+                userResource.resetPassword(newPass);
+
+                systemUser.setUpdatedAt(new Date().toInstant());
+                systemUserRepo.save(systemUser);
+                return true;
+            }
+            throw new BadRequestException("Try again!")
+        }
+        throw new EntryNotFoundException("Unable to find!");
+
     }
 }
