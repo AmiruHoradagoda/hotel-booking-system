@@ -13,5 +13,6 @@ public interface SystemUserService {
     public void forgetPasswordSendVerificationCode(String email, String type) throws IOException;
     public boolean verifyRest(String otp,String email);
     public boolean passwordReset(PasswordRequestDto passwordRequestDto);
+    public boolean verifyEmail(String otp,String email);
 
 }

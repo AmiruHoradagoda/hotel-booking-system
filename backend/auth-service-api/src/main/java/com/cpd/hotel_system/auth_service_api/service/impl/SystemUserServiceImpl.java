@@ -355,9 +355,65 @@ public class SystemUserServiceImpl implements SystemUserService {
                 systemUserRepo.save(systemUser);
                 return true;
             }
-            throw new BadRequestException("Try again!")
+            throw new BadRequestException("Try again!");
         }
         throw new EntryNotFoundException("Unable to find!");
 
+    }
+
+    @Override
+    public boolean verifyEmail(String otp, String email) {
+        Optional<SystemUser> selectedUserObj = systemUserRepo.findByEmail(email);
+        if (selectedUserObj.isEmpty()) {
+            throw new EntryNotFoundException("Cant find the associated user");
+        }
+        SystemUser systemUser = selectedUserObj.get();
+        Otp otpObj = systemUser.getOtp();
+        if (otpObj.getIsVerified()) {
+            throw new BadRequestException("This otp has been used!");
+        }
+        if (otpObj.getAttempts() >= 5) {
+            resend(email, "SIGNUP");
+            return false;
+        }
+
+        if (otpObj.getCode().equals(otp)) {
+            UserRepresentation keyclockUser = keyClockUtil.getKeyClockInstance()
+                    .realm(realm)
+                    .users()
+                    .search(email)
+                    .stream()
+                    .findFirst()
+                    .orElseThrow(() -> new EntryNotFoundException("User not found"));
+            keyclockUser.setEmailVerified(true);
+            keyclockUser.setEnabled(true);
+
+            keyClockUtil.getKeyClockInstance()
+                    .realm(realm)
+                    .users()
+                    .get(keyclockUser.getId())
+                    .update(keyclockUser);
+
+            systemUser.setEmailVerified(true);
+            systemUser.setEnabled(true);
+            systemUser.setActive(true);
+
+            systemUserRepo.save(systemUser);
+
+            otpObj.setIsVerified(true);
+            otpObj.setAttempts(otpObj.getAttempts() + 1);
+            otpRepo.save(otpObj);
+
+            return true;
+
+        } else {
+            if (otpObj.getAttempts() >= 5) {
+                resend(email, "SIGNUP");
+                return false;
+            }
+            otpObj.setAttempts(otpObj.getAttempts() + 1);
+            otpRepo.save(otpObj);
+        }
+        return false;
     }
 }
