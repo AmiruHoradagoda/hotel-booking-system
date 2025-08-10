@@ -245,7 +245,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     }
 
     @Override
-    public void resend(String email, String type) throws IOException {
+    public void resend(String email, String type){
         try {
             Optional<SystemUser> selectedUser = systemUserRepo.findByEmail(email);
             if (selectedUser.isEmpty()) {
@@ -300,6 +300,34 @@ public class SystemUserServiceImpl implements SystemUserService {
 
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    @Override
+    public boolean verifyRest(String otp, String email) {
+        try {
+            Optional<SystemUser> selectedUser = systemUserRepo.findByEmail(email);
+            if (selectedUser.isEmpty()) {
+                throw new EntryNotFoundException("unable to find any users associated withe the provided email");
+            }
+            SystemUser systemUser = selectedUser.get();
+            Otp otpObj = systemUser.getOtp();
+            if (otpObj.getCode().equals(otp)){
+                otpRepo.deleteById(otpObj.getPropertyId());
+                return true;
+            }else {
+                if (otpObj.getAttempts()>=5){
+                    resend(email,"PASSWORD");
+                    throw new BadRequestException("You have a new Verification code");
+                }
+                otpObj.setAttempts(otpObj.getAttempts()+1);
+                otpObj.setUpdatedAt(new Date().toInstant());
+                otpObj.setIsVerified(true);
+                otpRepo.save(otpObj);
+                return false;
+            }
+        }catch (Exception e){
+            return false;
         }
     }
 }
