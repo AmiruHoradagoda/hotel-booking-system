@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 
@@ -28,6 +29,24 @@ public class UserController {
         return new ResponseEntity<>(
                 new StandardResponseDto(201, "user account was created!", null),
                 HttpStatus.CREATED
+        );
+    }
+
+    @PostMapping("/visitors/resend")
+    public ResponseEntity<StandardResponseDto> resend(@RequestParam String email, @RequestParam String type) throws IOException {
+        systemUserService.resend(email,type);
+        return new ResponseEntity<>(
+                new StandardResponseDto(200, "please check your email", null),
+                HttpStatus.OK
+        );
+    }
+
+    @PostMapping("/visitors/forget-password-request-code")
+    public ResponseEntity<StandardResponseDto> forgetPasswordRequest(@RequestParam String email, @RequestParam String type) throws IOException {
+        systemUserService.forgetPasswordSendVerificationCode(email);
+        return new ResponseEntity<>(
+                new StandardResponseDto(200, "please check your email", null),
+                HttpStatus.OK
         );
     }
 

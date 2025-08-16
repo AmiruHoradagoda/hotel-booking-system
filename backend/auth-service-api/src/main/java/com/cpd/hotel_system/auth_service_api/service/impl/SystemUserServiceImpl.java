@@ -287,7 +287,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     }
 
     @Override
-    public void forgetPasswordSendVerificationCode(String email, String type) throws IOException {
+    public void forgetPasswordSendVerificationCode(String email) {
         try {
             Optional<SystemUser> selectedUser = systemUserRepo.findByEmail(email);
             if (selectedUser.isEmpty()) {
@@ -444,9 +444,9 @@ public class SystemUserServiceImpl implements SystemUserService {
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
         requestBody.add("client_id", "");
         requestBody.add("grant_type", OAuth2Constants.PASSWORD);
-        requestBody.add("username",dto.getEmail());
-        requestBody.add("client_secret","");
-        requestBody.add("password",dto.getPassword());
+        requestBody.add("username", dto.getEmail());
+        requestBody.add("client_secret", "");
+        requestBody.add("password", dto.getPassword());
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
