@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.stereotype.Component;
 
+@Component
 public class EmailTemplateHelper {
     public String loadHtmlTemplate(String templateName){
         try{
