@@ -1,6 +1,7 @@
 package com.cpd.hotel_system.auth_service_api.api;
 
 import com.cpd.hotel_system.auth_service_api.config.JwtService;
+import com.cpd.hotel_system.auth_service_api.dto.request.PasswordRequestDto;
 import com.cpd.hotel_system.auth_service_api.dto.request.SystemUserRequestDto;
 import com.cpd.hotel_system.auth_service_api.service.SystemUserService;
 import com.cpd.hotel_system.auth_service_api.utils.StandardResponseDto;
@@ -42,11 +43,35 @@ public class UserController {
     }
 
     @PostMapping("/visitors/forget-password-request-code")
-    public ResponseEntity<StandardResponseDto> forgetPasswordRequest(@RequestParam String email, @RequestParam String type) throws IOException {
+    public ResponseEntity<StandardResponseDto> forgetPasswordRequest(@RequestParam String email) throws IOException {
         systemUserService.forgetPasswordSendVerificationCode(email);
         return new ResponseEntity<>(
                 new StandardResponseDto(200, "please check your email", null),
                 HttpStatus.OK
+        );
+    }
+
+    @PostMapping("/visitors/verify-reset")
+    public ResponseEntity<StandardResponseDto> verifyReset(
+            @RequestParam String email,
+            @RequestParam String otp
+    ) throws IOException{
+        boolean isVerified = systemUserService.verifyReset(otp,email);
+        return new ResponseEntity<>(
+                new StandardResponseDto(isVerified?200:400,isVerified?"Verified":"try Again",isVerified),
+                isVerified?HttpStatus.OK:HttpStatus.BAD_REQUEST
+        );
+    }
+
+    @PostMapping("/visitors/reset-password")
+    public ResponseEntity<StandardResponseDto> resetPassword(
+            @RequestBody PasswordRequestDto dto
+    ) throws IOException{
+
+        boolean isChanged = systemUserService.passwordReset(dto);
+        return new ResponseEntity<>(
+                new StandardResponseDto(isChanged?201:400,isChanged?"CHANGED":"try Again",isChanged),
+                isChanged?HttpStatus.CREATED:HttpStatus.BAD_REQUEST
         );
     }
 

@@ -12,7 +12,7 @@ public interface SystemUserService {
     public void initializeHosts(List<SystemUserRequestDto> users) throws IOException;
     public void resend(String email,String type) throws IOException;
     public void forgetPasswordSendVerificationCode(String email );
-    public boolean verifyRest(String otp,String email);
+    public boolean verifyReset(String otp, String email);
     public boolean passwordReset(PasswordRequestDto passwordRequestDto);
     public boolean verifyEmail(String otp,String email);
     public Object userLogin(RequestLoginDto dto);

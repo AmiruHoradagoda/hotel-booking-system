@@ -318,7 +318,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     }
 
     @Override
-    public boolean verifyRest(String otp, String email) {
+    public boolean verifyReset(String otp, String email) {
         try {
             Optional<SystemUser> selectedUser = systemUserRepo.findByEmail(email);
             if (selectedUser.isEmpty()) {
