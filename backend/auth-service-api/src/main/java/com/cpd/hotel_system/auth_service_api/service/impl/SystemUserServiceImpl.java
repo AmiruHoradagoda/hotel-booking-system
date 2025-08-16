@@ -1,6 +1,6 @@
 package com.cpd.hotel_system.auth_service_api.service.impl;
 
-import com.cpd.hotel_system.auth_service_api.config.KeyClockSecurityUtil;
+import com.cpd.hotel_system.auth_service_api.config.KeycloakSecurityUtil;
 import com.cpd.hotel_system.auth_service_api.dto.request.PasswordRequestDto;
 import com.cpd.hotel_system.auth_service_api.dto.request.RequestLoginDto;
 import com.cpd.hotel_system.auth_service_api.dto.request.SystemUserRequestDto;
@@ -47,7 +47,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     private String realm; // The Keycloak realm name (from application properties)
 
     private final SystemUserRepo systemUserRepo; // Repository for managing SystemUser table
-    private final KeyClockSecurityUtil keyClockUtil; // Utility to get Keycloak admin client instance
+    private final KeycloakSecurityUtil keyClockUtil; // Utility to get Keycloak admin client instance
     private final OtpRepo otpRepo; // Repository for managing OTP table
     private final OtpGenerator otpGenerator; // Utility for generating OTP codes
     private final EmailService emailService; // Service for sending emails
@@ -70,7 +70,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         Keycloak keycloak = null;
 
         UserRepresentation existingUser = null;
-        keycloak = keyClockUtil.getKeyClockInstance(); // Get Keycloak admin client instance
+        keycloak = keyClockUtil.getKeycloakInstance(); // Get Keycloak admin client instance
 
         // --- 2. Check if the user already exists in Keycloak ---
         existingUser = keycloak.realm(realm)
@@ -194,7 +194,7 @@ public class SystemUserServiceImpl implements SystemUserService {
             String otp = "";
             Keycloak keycloak = null;
             UserRepresentation existingUser = null;
-            keycloak = keyClockUtil.getKeyClockInstance();
+            keycloak = keyClockUtil.getKeycloakInstance();
 
             // Check if exists in Keycloak
             existingUser = keycloak.realm(realm).users().search(dto.getEmail()).stream()
@@ -295,7 +295,7 @@ public class SystemUserServiceImpl implements SystemUserService {
             }
             SystemUser systemUser = selectedUser.get();
             Keycloak keycloak = null;
-            keycloak = keyClockUtil.getKeyClockInstance();
+            keycloak = keyClockUtil.getKeycloakInstance();
             UserRepresentation existingUser = keycloak.realm(realm).users().search(email).stream().findFirst().orElse(null);
             if (existingUser == null) {
                 throw new EntryNotFoundException("Unable to find any users associated with the provided email address");
@@ -352,7 +352,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         if (selectedUserObj.isPresent()) {
             SystemUser systemUser = selectedUserObj.get();
             Otp otpObj = systemUser.getOtp();
-            Keycloak keycloak = keyClockUtil.getKeyClockInstance();
+            Keycloak keycloak = keyClockUtil.getKeycloakInstance();
             List<UserRepresentation> keyclockUsers = keycloak.realm(realm).users().search(systemUser.getEmail());
             if (!keyclockUsers.isEmpty() && otpObj.getCode().equals(dto.getCode())) {
                 UserRepresentation keyclockUser = keyclockUsers.get(0);
@@ -390,7 +390,7 @@ public class SystemUserServiceImpl implements SystemUserService {
         }
 
         if (otpObj.getCode().equals(otp)) {
-            UserRepresentation keyclockUser = keyClockUtil.getKeyClockInstance()
+            UserRepresentation keyclockUser = keyClockUtil.getKeycloakInstance()
                     .realm(realm)
                     .users()
                     .search(email)
@@ -400,7 +400,7 @@ public class SystemUserServiceImpl implements SystemUserService {
             keyclockUser.setEmailVerified(true);
             keyclockUser.setEnabled(true);
 
-            keyClockUtil.getKeyClockInstance()
+            keyClockUtil.getKeycloakInstance()
                     .realm(realm)
                     .users()
                     .get(keyclockUser.getId())
