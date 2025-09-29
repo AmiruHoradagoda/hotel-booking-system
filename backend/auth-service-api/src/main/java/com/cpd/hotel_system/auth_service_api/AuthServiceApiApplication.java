@@ -23,18 +23,26 @@ public class AuthServiceApiApplication implements CommandLineRunner {
         SpringApplication.run(AuthServiceApiApplication.class, args);
     }
 
+
     @Override
     public void run(String... args) throws Exception {
-        SystemUserRequestDto user1 = new SystemUserRequestDto("ABC",
-                "XYZ",
-                "amirumithsara1234@gmail.com",
-                passwordGenerator.generatePassword(), "0717244872"
-        );
-        SystemUserRequestDto user2 = new SystemUserRequestDto("STY",
-                "WTY",
-                "abc@gmail.com",
-                passwordGenerator.generatePassword(), "0717244872"
-        );
-        userService.initializeHosts(Arrays.asList(user1, user2));
+        try {
+            SystemUserRequestDto user1 = new SystemUserRequestDto("ABC",
+                    "XYZ",
+                    "udemy.amiru@gmail.com",
+                    passwordGenerator.generatePassword(), "0717244872"
+            );
+            SystemUserRequestDto user2 = new SystemUserRequestDto("STY",
+                    "WTY",
+                    "abc@gmail.com",
+                    passwordGenerator.generatePassword(), "0717244872"
+            );
+            userService.initializeHosts(Arrays.asList(user1, user2));
+            System.out.println("Host users initialized successfully");
+        } catch (Exception e) {
+            System.err.println("Failed to initialize host users: " + e.getMessage());
+            System.err.println("Application will continue without initial host users");
+            // Don't rethrow - let the application start normally
+        }
     }
 }

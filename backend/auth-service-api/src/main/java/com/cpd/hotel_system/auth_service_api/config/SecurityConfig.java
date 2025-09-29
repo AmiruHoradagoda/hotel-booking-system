@@ -1,6 +1,4 @@
 package com.cpd.hotel_system.auth_service_api.config;
-
-import org.keycloak.models.AbstractConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,22 +15,26 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
+
     @Autowired
     JwtAuthConverter authConverter;
 
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable);
-        http.authorizeHttpRequests(
-                authorize -> {
-                    authorize
-                            .requestMatchers(HttpMethod.POST, "user-service/api/v1/users/visitors/**").permitAll()
-                            .anyRequest().authenticated();
+        http.authorizeHttpRequests(autherize->{
+            autherize
+                    .requestMatchers(HttpMethod.POST, "user-service/api/v1/users/visitors/**").permitAll()
+                    .anyRequest().authenticated();
+        });
 
-                });
-        http.oauth2ResourceServer(
-                t -> t.jwt(jwtConfigurer -> jwtConfigurer.jwtAuthenticationConverter(authConverter)));
-        http.sessionManagement(t -> t.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
+        http.oauth2ResourceServer(t->{
+            t.jwt(jwtConfigurer->jwtConfigurer.jwtAuthenticationConverter(authConverter));
+        });
+
+        http.sessionManagement(t->t.sessionCreationPolicy(SessionCreationPolicy.STATELESS)); // TASK 1
         return http.build();
+
     }
 
     @Bean

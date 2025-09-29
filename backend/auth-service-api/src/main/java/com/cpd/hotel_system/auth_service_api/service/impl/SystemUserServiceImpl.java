@@ -46,6 +46,16 @@ public class SystemUserServiceImpl implements SystemUserService {
     @Value("${keycloak.config.realm}")
     private String realm; // The Keycloak realm name (from application properties)
 
+    @Value("${spring.security.oauth2.resourceserver.jwt.token-uri}")
+    private String keyClockApiUrl;
+
+    @Value("${keycloak.config.client-id}")
+    private String clientId;
+
+    @Value("${keycloak.config.secret}")
+    private String secret;
+
+
     private final SystemUserRepo systemUserRepo; // Repository for managing SystemUser table
     private final KeycloakSecurityUtil keyClockUtil; // Utility to get Keycloak admin client instance
     private final OtpRepo otpRepo; // Repository for managing OTP table
@@ -137,8 +147,16 @@ public class SystemUserServiceImpl implements SystemUserService {
                     .keycloakId(createdUser.getId())
                     .firstName(dto.getFirstName())
                     .lastName(dto.getLastName())
+                    .email(dto.getEmail())
                     .contact(dto.getContact())
-                    .isActive(true)
+                    .isActive(false)
+                    .isAccountNonExpired(true)
+                    .isAccountNonLocked(true)
+                    .isCredentialsNonExpired(true)
+                    .isEnabled(false)
+                    .isEmailVerified(false)
+                    .createdAt(new Date().toInstant())
+                    .updatedAt(new Date().toInstant())
                     .build();
 
             SystemUser savedUser = systemUserRepo.save(sUser);
@@ -150,6 +168,7 @@ public class SystemUserServiceImpl implements SystemUserService {
                     .createdAt(Instant.now())
                     .updatedAt(Instant.now())
                     .isVerified(false)
+                    .systemUser(savedUser)
                     .attempts(0)
                     .build();
             otpRepo.save(createdOtp);
@@ -442,16 +461,16 @@ public class SystemUserServiceImpl implements SystemUserService {
             throw new UnauthorizedException("Please verify email");
         }
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
-        requestBody.add("client_id", "");
+        requestBody.add("client_id", clientId);
         requestBody.add("grant_type", OAuth2Constants.PASSWORD);
         requestBody.add("username", dto.getEmail());
-        requestBody.add("client_secret", "");
+        requestBody.add("client_secret", secret);
         requestBody.add("password", dto.getPassword());
         HttpHeaders headers = new HttpHeaders();
 
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Object> response = restTemplate.postForEntity("keyclock api url", requestBody, Object.class);
+        ResponseEntity<Object> response = restTemplate.postForEntity(keyClockApiUrl, requestBody, Object.class);
         return response.getBody();
     }
 }

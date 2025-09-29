@@ -42,10 +42,10 @@ public class KeycloakSecurityUtil {
                         .serverUrl(serverUrl)
                         .realm(realm)
                         .clientId(clientId)
+                        .clientSecret(secret)
                         .grantType(grantType)
                         .username(username)
                         .password(password)
-                        .clientSecret(secret)
                         .build();
 
                 // Test the connection immediately
