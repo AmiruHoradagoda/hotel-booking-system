@@ -1,0 +1,254 @@
+---
+import Header from "../components/share/Header.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+  <!-- Your About page content here -->
+  <Header />
+  <div id="container">
+    <header>
+      <h1>Contact <span>Us</span></h1>
+      <p class="header-paraph">
+        Cupcake ipsum dolor sit amet cake gummi bears gummi bears croissant.
+        Croissant jujubes sweet apple pie powder cheesecake sweet. Chupa chups
+        pudding sweet lollipop cupcake shortbread.
+      </p>
+    </header>
+
+    <main class="wrapper">
+      <div class="contact-detail--col">
+        <h3>Contact Detail</h3>
+        <p class="contact-paraph">
+          Chupa chups bear claw I love cake cake. Danish chupa chups oat cake
+          tart cheesecake cupcake.
+        </p>
+
+        <section class="icons">
+          <div class="detail-icon">
+            <i class="fa-solid fa-mobile-screen-button fa-2xl"></i>
+            <div class="info-icon">
+              <small>PHONE :</small>
+              <p class="info-detail">+1 3056059161 , +1 9838378111</p>
+            </div>
+          </div>
+
+          <div class="detail-icon">
+            <i class="fa-regular fa-envelope fa-2xl"></i>
+            <div class="info-icon">
+              <small>EMAIL :</small>
+              <p class="info-detail">example@info.com</p>
+            </div>
+          </div>
+
+          <div class="detail-icon">
+            <i class="fa-solid fa-location-dot fa-2xl"></i>
+            <div class="info-icon">
+              <small>ADDRESS :</small>
+              <p class="info-detail">
+                48696 Stiedemann Mountains, New Marcel, ID 68484
+              </p>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="contact-form--col">
+        <form>
+          <div class="first-row--form">
+            <input type="text" id="name" name="name" placeholder="Name" />
+
+            <input type="email" id="email" name="email" placeholder="Email" />
+          </div>
+
+          <div class="second-row--form">
+            <input
+              type="text"
+              id="subject"
+              name="subject"
+              placeholder="Subject"
+            />
+
+            <textarea name="message" id="message" cols="30" rows="5"
+              >Message</textarea
+            >
+
+            <button>Send Now!</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+</Layout>
+
+<style>
+  @import url("https://fonts.googleapis.com/css2?family=Gaegu:wght@300;400;700&display=swap");
+
+  #Container {
+    font-family: "Gaegu", cursive;
+    padding: 50px 20px;
+    background: #f9f9f9;
+  }
+
+  *,
+  *::before,
+  *::after {
+    /* margin: 0; */
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 {
+    text-align: center;
+    font-size: 3rem;
+  }
+
+  h3 {
+    font-size: 2rem;
+  }
+
+  p {
+    font-size: 1.3rem;
+  }
+
+  .header-paraph {
+    width: 50%;
+  }
+
+  small {
+    font-size: 1.1rem;
+    font-weight: 700;
+  }
+
+  span {
+    color: #b691e1;
+  }
+
+  .wrapper {
+    display: flex;
+    gap: 2rem;
+    margin-top: 3rem;
+  }
+
+  .contact-paraph {
+    width: 75%;
+  }
+
+  .detail-icon {
+    display: flex;
+    gap: 1.5rem;
+  }
+
+  .second-row--form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .icons {
+    margin-top: 3rem;
+  }
+
+  .info-detail {
+    font-size: 1.1rem;
+  }
+
+  /* ----------FORM---------- */
+  form {
+    max-width: 30rem;
+  }
+
+  .first-row--form {
+    display: flex;
+    gap: 1rem;
+  }
+
+  input[type="text"],
+  input[type="email"] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    -webkit-transition: 0.1s;
+    transition: 0.1s;
+    outline: none;
+    font-family: "Gaegu";
+    font-size: 1.2rem;
+  }
+
+  input[type="text"]:focus {
+    border: 3px solid #94bbe9;
+  }
+  input[type="email"]:focus {
+    border: 3px solid #94bbe9;
+  }
+
+  textarea {
+    font-family: "Gaegu";
+    font-size: 1.2rem;
+    color: rgb(131, 134, 136);
+    border: 1px solid #ffffff;
+    border-radius: 8px;
+    -webkit-transition: 0.1s;
+    transition: 0.1s;
+    outline: none;
+  }
+
+  textarea:focus {
+    border: 3px solid #94bbe9;
+  }
+
+  button {
+    width: 100%;
+    background: #b691e1;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    opacity: 0.7;
+    transition: 0.3s;
+    font-family: "Gaegu";
+    font-size: 1.5rem;
+    color: #ffffff;
+  }
+
+  button:active {
+    transform: translateY(4px);
+  }
+
+  button:hover {
+    opacity: 1;
+  }
+
+  @media (max-width: 900px) {
+    .wrapper {
+      flex-direction: column;
+    }
+    .contact-form--col {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 550px) {
+    form {
+      max-width: 20rem;
+    }
+    .first-row--form {
+      flex-direction: column;
+      gap: 0;
+    }
+    .header-paraph {
+      width: 80%;
+    }
+  }
+</style>

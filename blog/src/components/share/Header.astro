@@ -1,0 +1,33 @@
+---
+import '../../styles/nav.css';
+const  currentPath  = Astro.url.pathname;
+
+const navItemes = [
+{href:'/', label:'Home'},
+    {href:'/About', label:'About'},
+    {href:'/Contact', label:'Contact'},
+    {href:'/Hotels', label:'Hotels'}
+];
+---
+
+
+<nav>
+  <div class="logo">
+    Logo
+  </div>
+  <div class="toggle-bars">
+    <div class="bar"></div>
+    <div class="bar"></div>
+    <div class="bar"></div>
+  </div>
+  
+  <div class="nav">
+    <ul>
+       {navItemes.map(item=>(
+                    <li>
+                        <a href={item.href} class={currentPath===item.href?'active':''}>{item.label}</a>
+                    </li>
+            ))}
+    </ul>
+  </div>
+</nav>

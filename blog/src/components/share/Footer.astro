@@ -1,0 +1,150 @@
+---
+import '../../styles/footer.css'
+---
+<!-- Pied de page -->
+<footer id="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <!-- Colonne 1 - À propos -->
+            <div class="footer-column">
+                <h3>Harmonie</h3>
+                <p>Notre mission est d'apporter paix et sérénité dans votre vie quotidienne grâce à des solutions de
+                    bien-être innovantes.</p>
+
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-link" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+
+            <!-- Colonne 2 - Liens rapides -->
+            <div class="footer-column">
+                <h3>Navigation</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Accueil</a></li>
+                    <li><a href="#">Nos services</a></li>
+                    <li><a href="#">Méthodologie</a></li>
+                    <li><a href="#">Témoignages</a></li>
+                    <li><a href="#">Événements</a></li>
+                    <li><a href="#">Blog</a></li>
+                </ul>
+            </div>
+
+            <!-- Colonne 3 - Support -->
+            <div class="footer-column">
+                <h3>Support</h3>
+                <ul class="footer-links">
+                    <li><a href="#">Centre d'aide</a></li>
+                    <li><a href="#">FAQ</a></li>
+                    <li><a href="#">Contactez-nous</a></li>
+                    <li><a href="#">Politique de confidentialité</a></li>
+                    <li><a href="#">CGU</a></li>
+                    <li><a href="#">Accessibilité</a></li>
+                </ul>
+            </div>
+
+            <!-- Colonne 4 - Contact -->
+            <div class="footer-column">
+                <h3>Contact</h3>
+
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>123 Rue du Bien-être<br>75000 Paris, France</span>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>+33 1 23 45 67 89<br>Lun-Ven, 9h-18h</span>
+                    </div>
+
+                    <div class="contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>contact@harmonie.com<br>support@harmonie.com</span>
+                    </div>
+                </div>
+
+                <div class="newsletter">
+                    <p>Abonnez-vous à notre newsletter :</p>
+                    <form class="newsletter-form">
+                        <input type="email" class="newsletter-input" placeholder="Votre email"
+                               aria-label="Votre adresse email" required>
+                        <button type="submit" class="newsletter-btn">S'abonner</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="copyright">
+            <p>&copy;
+                <script>document.write(new Date().getFullYear().toString())</script> Harmonie. Tous droits réservés. | <a
+                        href="#">Mentions légales</a> | <a href="#">Politique des cookies</a>
+            </p>
+        </div>
+    </div>
+</footer>
+
+<!-- Bouton retour en haut -->
+<div class="back-to-top" id="backToTop" aria-label="Retour en haut">
+    <i class="fas fa-arrow-up"></i>
+</div>
+
+<script>
+    const backToTop:any = document.getElementById('backToTop');
+
+    window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+            backToTop?.classList.add('visible');
+        } else {
+            backToTop?.classList.remove('visible');
+        }
+    });
+
+    backToTop.addEventListener('click', () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    // Optimisation des animations
+    let lastScrollY = 0;
+    let ticking = false;
+
+    window.addEventListener('scroll', () => {
+        lastScrollY = window.scrollY;
+
+        if (!ticking) {
+            window.requestAnimationFrame(() => {
+                // Ici vous pourriez ajouter d'autres animations en fonction du scroll
+                ticking = false;
+            });
+
+            ticking = true;
+        }
+    });
+
+    // Chargement différé des éléments non critiques
+    document.addEventListener('DOMContentLoaded', function () {
+        if ('IntersectionObserver' in window) {
+            const lazyElements = document.querySelectorAll('.lazy');
+
+            const lazyObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        const lazyElement = entry.target;
+                        // Charger les éléments ici
+                        lazyObserver.unobserve(lazyElement);
+                    }
+                });
+            });
+
+            lazyElements.forEach((lazyElement) => {
+                lazyObserver.observe(lazyElement);
+            });
+        }
+    });
+</script>

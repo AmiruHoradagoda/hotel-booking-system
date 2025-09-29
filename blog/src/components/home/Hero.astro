@@ -1,0 +1,127 @@
+---
+import '../../styles/hero.css';
+---
+
+<div class="hero-container">
+    <div class="hero-content">
+        <h1 class="hero-title">Exquisite Ruby Collection</h1>
+        <p class="hero-subtitle">Rare Gemstones. Timeless Elegance.</p>
+        <p class="hero-description">
+            Discover our curated selection of the world's finest rubies,
+            each piece carefully selected for its exceptional beauty,
+            clarity, and craftsmanship. From classic designs to contemporary
+            masterpieces, find the perfect piece to tell your story.
+        </p>
+        <a href="#collection" class="cta-button">
+            <span>Browse Collection</span>
+            <span class="cta-arrow">→</span>
+        </a>
+    </div>
+
+    <div class="ruby-showcase">
+        <div class="ruby-container">
+            <svg class="ruby-svg" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <!-- Ruby gradients -->
+                    <radialGradient id="rubyGradient1" cx="50%" cy="30%" r="70%">
+                        <stop offset="0%" style="stop-color:#ff6b9d;stop-opacity:1" />
+                        <stop offset="30%" style="stop-color:#dc143c;stop-opacity:0.9" />
+                        <stop offset="60%" style="stop-color:#8b0000;stop-opacity:0.8" />
+                        <stop offset="100%" style="stop-color:#4a0000;stop-opacity:0.6" />
+                    </radialGradient>
+
+                    <radialGradient id="rubyGradient2" cx="50%" cy="30%" r="60%">
+                        <stop offset="0%" style="stop-color:#ff1744;stop-opacity:1" />
+                        <stop offset="40%" style="stop-color:#c62828;stop-opacity:0.9" />
+                        <stop offset="80%" style="stop-color:#6a1b1b;stop-opacity:0.7" />
+                        <stop offset="100%" style="stop-color:#2e0000;stop-opacity:0.5" />
+                    </radialGradient>
+
+                    <radialGradient id="rubyCenter" cx="50%" cy="50%" r="50%">
+                        <stop offset="0%" style="stop-color:#ff8a95;stop-opacity:0.9" />
+                        <stop offset="50%" style="stop-color:#e91e63;stop-opacity:0.8" />
+                        <stop offset="100%" style="stop-color:#880e4f;stop-opacity:0.6" />
+                    </radialGradient>
+
+                    <!-- Shine effects -->
+                    <linearGradient id="rubyShine" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:rgba(255,255,255,0.4)" />
+                        <stop offset="50%" style="stop-color:rgba(255,107,157,0.3)" />
+                        <stop offset="100%" style="stop-color:rgba(220,20,60,0.2)" />
+                    </linearGradient>
+
+                    <!-- Animated shine -->
+                    <linearGradient id="animatedRubyShine" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style="stop-color:transparent" />
+                        <stop offset="45%" style="stop-color:transparent" />
+                        <stop offset="50%" style="stop-color:rgba(255,255,255,0.8)" />
+                        <stop offset="55%" style="stop-color:transparent" />
+                        <stop offset="100%" style="stop-color:transparent" />
+                        <animateTransform attributeName="gradientTransform" type="translate" values="-100 0;400 0;-100 0" dur="3s" repeatCount="indefinite"/>
+                    </linearGradient>
+
+                    <!-- Glow filter -->
+                    <filter id="rubyGlow" x="-50%" y="-50%" width="200%" height="200%">
+                        <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+                        <feMerge>
+                            <feMergeNode in="coloredBlur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+
+                <!-- Ruby facets -->
+                <path d="M16.867 15.734c.625.626 1.64.626 2.266 0l6.232-6.231a1.604 1.604 0 0 0 0-2.266l-6.232-6.231a1.602 1.602 0 0 0-2.266 0l-6.232 6.231a1.602 1.602 0 0 0 0 2.266l6.232 6.231z"
+                      fill="url(#rubyGradient1)"
+                      stroke="rgba(220, 20, 60, 0.8)"
+                      stroke-width="0.5"
+                      filter="url(#rubyGlow)">
+                    <animate attributeName="opacity" values="0.9;1;0.9" dur="2s" repeatCount="indefinite"/>
+                </path>
+
+                <path d="M26.498 25.364c.625.626 1.64.626 2.266 0l6.232-6.231a1.604 1.604 0 0 0 0-2.266l-6.232-6.231a1.602 1.602 0 0 0-2.266 0l-6.232 6.231a1.602 1.602 0 0 0 0 2.266l6.232 6.231z"
+                      fill="url(#rubyGradient2)"
+                      stroke="rgba(220, 20, 60, 0.8)"
+                      stroke-width="0.5"
+                      filter="url(#rubyGlow)">
+                    <animate attributeName="opacity" values="0.8;1;0.8" dur="2.3s" repeatCount="indefinite"/>
+                </path>
+
+                <path d="M25.364 26.498l-6.231-6.232a1.602 1.602 0 0 0-2.266 0l-6.231 6.232a1.6 1.6 0 0 0 0 2.265l6.231 6.232c.626.625 1.64.625 2.266 0l6.231-6.232a1.6 1.6 0 0 0 0-2.265z"
+                      fill="url(#rubyGradient1)"
+                      stroke="rgba(220, 20, 60, 0.8)"
+                      stroke-width="0.5"
+                      filter="url(#rubyGlow)">
+                    <animate attributeName="opacity" values="0.85;1;0.85" dur="1.8s" repeatCount="indefinite"/>
+                </path>
+
+                <path d="M15.734 16.868l-6.231-6.232a1.602 1.602 0 0 0-2.266 0l-6.231 6.232a1.6 1.6 0 0 0 0 2.265l6.231 6.232c.626.625 1.64.625 2.266 0l6.231-6.232a1.6 1.6 0 0 0 0-2.265z"
+                      fill="url(#rubyGradient2)"
+                      stroke="rgba(220, 20, 60, 0.8)"
+                      stroke-width="0.5"
+                      filter="url(#rubyGlow)">
+                    <animate attributeName="opacity" values="0.9;1;0.9" dur="2.5s" repeatCount="indefinite"/>
+                </path>
+
+                <!-- Center ruby -->
+                <circle fill="url(#rubyCenter)" cx="18" cy="18" r="5"
+                        stroke="rgba(255, 255, 255, 0.4)"
+                        stroke-width="0.5"
+                        filter="url(#rubyGlow)">
+                    <animate attributeName="r" values="5;5.5;5" dur="3s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="0.9;1;0.9" dur="2s" repeatCount="indefinite"/>
+                </circle>
+
+                <!-- Shine highlights -->
+                <path d="M16.867 15.734c.625.626 1.64.626 2.266 0l6.232-6.231a1.604 1.604 0 0 0 0-2.266l-6.232-6.231a1.602 1.602 0 0 0-2.266 0l-6.232 6.231a1.602 1.602 0 0 0 0 2.266l6.232 6.231z"
+                      fill="url(#rubyShine)"
+                      opacity="0.6">
+                    <animate attributeName="opacity" values="0.4;0.8;0.4" dur="1.5s" repeatCount="indefinite"/>
+                </path>
+
+                <!-- Animated shine overlay -->
+                <rect x="0" y="0" width="36" height="36" fill="url(#animatedRubyShine)" opacity="0.7"/>
+            </svg>
+        </div>
+    </div>
+</div>
