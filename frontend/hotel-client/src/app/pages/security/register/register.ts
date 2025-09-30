@@ -1,16 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-  FormGroup,
-  FormControl,
-  Validators,
-} from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
-import { Router, RouterLink } from '@angular/router';
 import { Auth } from '../../../service/auth';
 import { CookieManager } from '../../../service/cookie-manager';
+import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
