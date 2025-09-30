@@ -1,5 +1,5 @@
 <div class="main-outer">
-  <form>
+  <form [formGroup]="form" (ngSubmit)="login()">
     <div class="container">
       <h3 style="margin-bottom: 20px">Login</h3>
       <div class="row">
@@ -9,6 +9,7 @@
             <input
               matInput
               placeholder="pat@example.com"
+              formControlName="email"
             />
           </mat-form-field>
         </div>
@@ -16,36 +17,54 @@
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Enter your Password</mat-label>
             <input
-              type="{{showStatus?'text':'password'}}"
+              type="{{ showStatus ? 'text' : 'password' }}"
               matInput
+              formControlName="password"
             />
           </mat-form-field>
         </div>
         <div class="col-12" style="text-align: center">
           <a routerLink="/security/forgot-password">Forgot Password?</a>
-          <br>
-          <br>
+          <br />
+          <br />
         </div>
         <div class="col-12" style="text-align: center">
-          <mat-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="showStatus" class="example-margin">Show Password</mat-checkbox>
-          <br>
-          <br>
+          <mat-checkbox
+            [ngModelOptions]="{ standalone: true }"
+            [(ngModel)]="showStatus"
+            class="example-margin"
+            >Show Password</mat-checkbox
+          >
+          <br />
+          <br />
         </div>
         <div class="col-12">
-          <button class="col-12" matButton="filled" color="primary">Access System</button>
+          <button
+            class="col-12"
+            matButton="filled"
+            color="primary"
+            [disabled]="form.invalid || loading"
+          >
+            Access System
+          </button>
         </div>
         <div class="col-12" style="text-align: center">
-          <br>
-          <br>
-         OR
-          <br>
-          <br>
+          <br />
+          <br />
+          OR
+          <br />
+          <br />
         </div>
         <div class="col-12">
-          <button class="col-12" matButton="tonal" routerLink="/security/register">Create an Account</button>
+          <button
+            class="col-12"
+            matButton="tonal"
+            routerLink="/security/register"
+          >
+            Create an Account
+          </button>
         </div>
       </div>
     </div>
   </form>
-
 </div>

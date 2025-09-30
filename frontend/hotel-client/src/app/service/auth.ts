@@ -34,4 +34,24 @@ export class Auth {
       contact: contact,
     });
   }
+
+  public verifyOtp(email: string, otp: string): Observable<any> {
+    return this.http.post(
+      this.baseUrl + `verify-email?email=${email}&otp=${otp}`,
+      {}
+    );
+  }
+
+  public resend(email: string): Observable<any> {
+    return this.http.post(
+      this.baseUrl + `verify-email?email=${email}`,
+      {}
+    );
+  }
+  public login(email: string, password: string): Observable<any> {
+    return this.http.post(this.baseUrl + 'login', {
+      email: email,
+      password: password,
+    });
+  }
 }
