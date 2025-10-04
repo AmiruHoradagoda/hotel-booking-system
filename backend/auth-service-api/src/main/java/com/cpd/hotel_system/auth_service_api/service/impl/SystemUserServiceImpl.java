@@ -4,7 +4,10 @@ import com.cpd.hotel_system.auth_service_api.config.KeycloakSecurityUtil;
 import com.cpd.hotel_system.auth_service_api.dto.request.PasswordRequestDto;
 import com.cpd.hotel_system.auth_service_api.dto.request.RequestLoginDto;
 import com.cpd.hotel_system.auth_service_api.dto.request.SystemUserRequestDto;
+import com.cpd.hotel_system.auth_service_api.dto.request.UpdateUserRequestDto;
+import com.cpd.hotel_system.auth_service_api.dto.response.ResponseUserDetailsDto;
 import com.cpd.hotel_system.auth_service_api.entity.Otp;
+import com.cpd.hotel_system.auth_service_api.entity.SystemAvatar;
 import com.cpd.hotel_system.auth_service_api.entity.SystemUser;
 import com.cpd.hotel_system.auth_service_api.exceptions.BadRequestException;
 import com.cpd.hotel_system.auth_service_api.exceptions.DuplicateEntryException;
@@ -13,6 +16,7 @@ import com.cpd.hotel_system.auth_service_api.exceptions.UnauthorizedException;
 import com.cpd.hotel_system.auth_service_api.repo.OtpRepo;
 import com.cpd.hotel_system.auth_service_api.repo.SystemUserRepo;
 import com.cpd.hotel_system.auth_service_api.service.SystemUserService;
+import com.cpd.hotel_system.auth_service_api.utils.FileDataExtractor;
 import com.cpd.hotel_system.auth_service_api.utils.OtpGenerator;
 import com.cpd.hotel_system.auth_service_api.service.EmailService;
 
@@ -61,6 +65,7 @@ public class SystemUserServiceImpl implements SystemUserService {
     private final OtpRepo otpRepo; // Repository for managing OTP table
     private final OtpGenerator otpGenerator; // Utility for generating OTP codes
     private final EmailService emailService; // Service for sending emails
+    private final FileDataExtractor fileDataExtractor;
 
     @Override
     public void createUser(SystemUserRequestDto dto) throws IOException {
@@ -472,5 +477,32 @@ public class SystemUserServiceImpl implements SystemUserService {
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<Object> response = restTemplate.postForEntity(keyClockApiUrl, requestBody, Object.class);
         return response.getBody();
+    }
+
+    @Override
+    public ResponseUserDetailsDto getUserDetails(String email) {
+        Optional<SystemUser> byEmail = systemUserRepo.findByEmail(email);
+        if (byEmail.isEmpty()) {
+            throw new EntryNotFoundException("User was not found!");
+        }
+        SystemAvatar systemUserAvatar = byEmail.get().getSystemAvatar();
+        return ResponseUserDetailsDto.builder()
+                .email(byEmail.get().getEmail())
+                .firstName(byEmail.get().getFirstName())
+                .lastName(byEmail.get().getLastName())
+                .resourceUrl(systemUserAvatar != null ? fileDataExtractor.byteArrayToString(systemUserAvatar.getResourceUrl()) : null)
+                .build();
+    }
+
+    @Override
+    public void updateUserDetails(String email, UpdateUserRequestDto updateUserRequestDto) {
+        Optional<SystemUser> byEmail = systemUserRepo.findByEmail(email);
+        if (byEmail.isEmpty()) {
+            throw new EntryNotFoundException("User was not found!");
+        }
+        byEmail.get().setFirstName(updateUserRequestDto.getFirstName());
+        byEmail.get().setLastName(updateUserRequestDto.getLastName());
+
+        systemUserRepo.save(byEmail.get());
     }
 }
