@@ -55,7 +55,7 @@ export class RegisterVerification implements OnInit {
         .subscribe(
           (resp) => {
             alert('Verification Successful! Please login to your account.');
-            this.router.navigateByUrl('/secuirity/login');
+            this.router.navigateByUrl('/security/login');
           },
           (error) => {
             this.loading = false;

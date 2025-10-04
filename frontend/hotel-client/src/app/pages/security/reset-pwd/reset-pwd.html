@@ -1,43 +1,44 @@
 <div class="main-outer">
-  <form>
+  <form [formGroup]="form" (ngSubmit)="resetPassword()">
     <div class="container">
       <h3 style="margin-bottom: 20px">Reset Your Password</h3>
       <div class="row">
         <div class="col-12">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Password Here</mat-label>
-            <input
-              matInput
-              type="password"
-            />
+            <input matInput type="password" formControlName="password" />
           </mat-form-field>
         </div>
         <div class="col-12">
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Confirm Password Here</mat-label>
-            <input
-              matInput
-              type="password"
-            />
+            <input matInput type="password" formControlName="conformPassword" />
           </mat-form-field>
         </div>
         <div class="col-12">
-          <button class="col-12" matButton="filled" color="primary"
-                  routerLink="/security/login">Change Now
+          <button
+            type="submit"
+            class="col-12"
+            matButton="filled"
+            color="primary"
+            [disabled]="form.invalid || loading"
+          >
+            Change Now
           </button>
         </div>
         <div class="col-12" style="text-align: center">
-          <br>
-          <br>
+          <br />
+          <br />
           OR
-          <br>
-          <br>
+          <br />
+          <br />
         </div>
         <div class="col-12">
-          <button class="col-12" matButton="tonal" routerLink="/security/login">Back to Login</button>
+          <button class="col-12" matButton="tonal" routerLink="/security/login">
+            Back to Login
+          </button>
         </div>
       </div>
     </div>
   </form>
-
 </div>
