@@ -10,6 +10,7 @@ import { ResetPwdVerification } from './pages/security/reset-pwd-verification/re
 import { ResetPwd } from './pages/security/reset-pwd/reset-pwd';
 import { Settings } from './pages/settings/settings';
 import { SearchResult } from './pages/search-result/search-result';
+import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -30,7 +31,7 @@ export const routes: Routes = [
       { path: 'reset-pwd', component: ResetPwd },
     ],
   },
-  { path: 'settings', component: Settings },
+  { path: 'settings', component: Settings,canActivate:[authGuard] },
   { path: 'search', component: SearchResult },
   { path: '**', component: NotFoundPage },
 ];

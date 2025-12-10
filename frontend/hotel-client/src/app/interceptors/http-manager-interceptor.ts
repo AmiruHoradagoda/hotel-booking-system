@@ -8,7 +8,8 @@ export const httpManagerInterceptor: HttpInterceptorFn = (req, next) => {
   let cookieService = inject(CookieManager);
   let router = inject(Router);
   let email = '';
-
+  console.log('httpManagerInterceptor called');
+  console.log('tockenExists : ', cookieService.tockenExists('token'));
   if (cookieService.tockenExists('token')) {
     const token = cookieService.getToken('token');
     req = req.clone({
@@ -16,7 +17,7 @@ export const httpManagerInterceptor: HttpInterceptorFn = (req, next) => {
     });
   }
   return next(req).pipe(
-    catchError((error:HttpErrorResponse) => {
+    catchError((error: HttpErrorResponse) => {
       return throwError(() => error);
     })
   );

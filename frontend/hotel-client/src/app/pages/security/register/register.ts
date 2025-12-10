@@ -3,7 +3,13 @@ import { MatFormField, MatInput, MatLabel } from '@angular/material/input';
 import { Auth } from '../../../service/auth';
 import { CookieManager } from '../../../service/cookie-manager';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
+import {
+  FormsModule,
+  ReactiveFormsModule,
+  FormGroup,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 
 @Component({
@@ -74,8 +80,8 @@ export class Register implements OnInit {
       const contact = this.form.get('contact')?.value.trim();
       this.authService
         .register(firstName, lastName, email, password, contact)
-        .subscribe(
-          (response) => {
+        .subscribe({
+          next: (response) => {
             console.log(response);
             this.loading = false;
             this.form.reset();
@@ -84,11 +90,11 @@ export class Register implements OnInit {
             );
             alert('Registration successful! Please verify your email.');
           },
-          (error) => {
+          error: (error) => {
             console.error('Error occurred during registration:', error);
             this.loading = false;
-          }
-        );
+          },
+        });
     }
 
     return;
